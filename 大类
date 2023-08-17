@@ -1,0 +1,107 @@
+创建用户实体类：
+
+import javax.persistence.*;
+public class User {
+    private Long id;
+    private String username;
+    private String password;
+    private String avatarUrl;
+}
+
+创建电影实体类：
+public class Movie {
+    private Long id;
+    private String title;
+    private String synopsis;
+    private Double rating;
+
+}
+
+
+
+创建演职员实体类：
+
+public class Cast {
+
+    private Long id;
+    private String name;
+    private String role;
+
+}
+
+
+创建剧照实体类：
+
+public class Still {
+
+    private Long id;
+    private String imageUrl;
+
+}
+
+
+创建电影影评实体类：
+
+public class MovieReview {
+
+    private Long id;
+    private String text;
+
+
+    private User user;
+
+
+    private Movie movie;
+
+}
+
+创建UserProfile类：
+public class UserProfile {
+    private User user;
+    private List<Movie> wishlist;
+    private List<Movie> watchedList;
+    private List<MovieReview> reviews;
+
+}
+
+
+
+更新电影实体类：
+
+public class Movie {
+
+    private Long id;
+    private String title;
+    private String synopsis;
+    private Double rating;
+    private Boolean isWatched;
+    private Boolean isWishlist;
+
+    // Getters and setters
+}
+
+更新用户实体类：
+
+public class User {
+
+    private Long id;
+
+    private String username;
+
+
+    private String password;
+
+    private String avatarUrl;
+
+
+    private List<MovieReview> reviews;
+
+
+    private List<Movie> wishlist;
+
+
+    private List<Movie> watchedList;
+
+
+}
+
