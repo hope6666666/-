@@ -64,6 +64,16 @@ public class UserProfile {
 
 }
 
+编写UserRegistrationRequest类和UserLoginRequest类：
+public class UserRegistrationRequest {
+    private String username;
+    private String password;
+}
+public class UserLoginRequest {
+    private String username;
+    private String password;
+
+}
 
 
 更新电影实体类：
@@ -77,7 +87,6 @@ public class Movie {
     private Boolean isWatched;
     private Boolean isWishlist;
 
-    // Getters and setters
 }
 
 更新用户实体类：
