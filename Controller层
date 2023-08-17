@@ -1,0 +1,105 @@
+实现用户注册和用户登录的Controller层：
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+
+public class UserController {
+
+    private UserRepository userRepository;
+
+
+    public ResponseEntity<String> register(@RequestBody UserRegistrationRequest userRequest) {
+
+        if (userRepository.findByUsername(userRequest.getUsername()) != null) {
+            return ResponseEntity.badRequest().body("Username already exists");
+        }
+
+
+        User newUser = new User();
+        newUser.setUsername(userRequest.getUsername());
+        newUser.setPassword(userRequest.getPassword());
+        userRepository.save(newUser);
+
+        return ResponseEntity.ok("User registered successfully");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserLoginRequest userRequest) {
+        User existingUser = userRepository.findByUsername(userRequest.getUsername());
+
+
+        if (existingUser == null || !existingUser.getPassword().equals(userRequest.getPassword())) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+        }
+
+        return ResponseEntity.ok("Login successful");
+    }
+}
+
+
+
+实现主页搜索和电影详细的Controller层：
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+
+public class MovieController {
+
+    private MovieRepository movieRepository;
+
+
+    public ResponseEntity<List<Movie>> searchMovies(@RequestParam String keyword) {
+        List<Movie> movies = movieRepository.findByTitleContaining(keyword);
+        return ResponseEntity.ok(movies);
+    }
+
+
+    public ResponseEntity<Movie> getMovieDetails(@PathVariable Long id) {
+        Optional<Movie> movie = movieRepository.findById(id);
+        if (movie.isPresent()) {
+            return ResponseEntity.ok(movie.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+}
+
+
+实现个人页面的Controller层：
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+
+public class UserController {
+
+    private UserRepository userRepository;
+    
+
+    private MovieRepository movieRepository;
+
+ 
+    public ResponseEntity<UserProfile> getUserProfile(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        List<Movie> wishlist = user.getWishlist();
+        List<Movie> watchedList = user.getWatchedList();
+        List<MovieReview> reviews = user.getReviews();
+
+        UserProfile userProfile = new UserProfile(user, wishlist, watchedList, reviews);
+        return ResponseEntity.ok(userProfile);
+    }
+}
+
