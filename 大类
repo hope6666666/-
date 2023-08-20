@@ -2,7 +2,6 @@
 创建用户实体类：
 
 import javax.persistence.*;
-
 @Entity
 @Table(name = "users")
 public class User {
@@ -18,7 +17,20 @@ public class User {
 
     private String avatarUrl;
 
+    @OneToMany(mappedBy = "user")
+    private List<MovieReview> reviews;
+
+    @ManyToMany
+    @JoinTable(name = "user_movie_wishlist")
+    private List<Movie> wishlist;
+
+    @ManyToMany
+    @JoinTable(name = "user_movie_watched")
+    private List<Movie> watchedList;
+
+
 }
+
 
 创建电影实体类：
 @Entity
@@ -29,9 +41,11 @@ public class Movie {
     private String title;
     private String synopsis;
     private Double rating;
-
+    private Boolean isWatched;
+    private Boolean isWishlist;
 
 }
+
 
 
 
@@ -87,50 +101,6 @@ public class UserProfile {
 }
 
 
-
-更新电影实体类：
-@Entity
-public class Movie {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String title;
-    private String synopsis;
-    private Double rating;
-    private Boolean isWatched;
-    private Boolean isWishlist;
-
-}
-
-更新用户实体类：
-@Entity
-@Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true, nullable = false)
-    private String username;
-
-    @Column(nullable = false)
-    private String password;
-
-    private String avatarUrl;
-
-    @OneToMany(mappedBy = "user")
-    private List<MovieReview> reviews;
-
-    @ManyToMany
-    @JoinTable(name = "user_movie_wishlist")
-    private List<Movie> wishlist;
-
-    @ManyToMany
-    @JoinTable(name = "user_movie_watched")
-    private List<Movie> watchedList;
-
-
-}
 
 
 
