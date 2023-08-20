@@ -12,7 +12,6 @@ public class User {
     @Column(unique = true, nullable = false)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
     private String avatarUrl;
@@ -24,8 +23,7 @@ public class User {
     @JoinTable(name = "user_movie_wishlist")
     private List<Movie> wishlist;
 
-    @ManyToMany
-    @JoinTable(name = "user_movie_watched")
+
     private List<Movie> watchedList;
 
 
@@ -85,8 +83,6 @@ public class MovieReview {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "movie_id")
     private Movie movie;
 
 }
