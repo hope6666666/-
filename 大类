@@ -91,14 +91,6 @@ public class MovieReview {
 
 }
 
-创建UserProfile类：
-public class UserProfile {
-    private User user;
-    private List<Movie> wishlist;
-    private List<Movie> watchedList;
-    private List<MovieReview> reviews;
-
-}
 
 
 
